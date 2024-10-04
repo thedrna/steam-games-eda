@@ -21,6 +21,8 @@ devtools::install_github("UBC-MDS/datateachr")
 ```{r}
 library(datateachr)
 library(tidyverse)
+library(dplyr)
+library(ggplot2)
 ```
 
 3.  Make a repository in the <https://github.com/stat545ubc-2024> Organization. You can do this by following the steps found on canvas in the entry called [MDA: Create a repository](https://canvas.ubc.ca/courses/158528/pages/mda-create-a-repository). One completed, your repository should automatically be listed as part of the stat545ubc-2024 Organization.
@@ -86,10 +88,10 @@ And that is exactly the first thing that you will do!
 
 <!-------------------------- Start your work below ---------------------------->
 
-1: CHOICE_1_HERE\
-2: CHOICE_2_HERE\
-3: CHOICE_3_HERE\
-4: CHOICE_4_HERE
+1: apt_buildings\
+2: building_permits\
+3: steam_games\
+4: vancouver_trees
 
 <!----------------------------------------------------------------------------->
 
@@ -100,8 +102,84 @@ And that is exactly the first thing that you will do!
 <!-------------------------- Start your work below ---------------------------->
 
 ```{r}
-### EXPLORE HERE ###
-steam_games
+# 1. Exploring the steam_games dataset
+
+# Display the first few rows of the dataset to get an idea of its structure
+head(steam_games)
+
+# Check the class type
+class(steam_games)
+
+# Find the number of rows and columns
+steam_games_dimensions <- dim(steam_games) # dim() returns rows and columns
+
+# Get a summary of the dataset to understand the type of variables
+steam_games_summary <- summary(steam_games)
+
+# Print the results
+steam_games_dimensions
+steam_games_summary
+
+```
+
+```{r}
+# 2. Exploring the apt_buildings dataset
+
+# Display the first few rows of the dataset
+head(apt_buildings)
+
+# Check the class type
+class(apt_buildings)
+
+# Find the number of rows and columns
+apt_buildings_dimensions <- dim(apt_buildings)
+
+# Get a summary of the dataset
+apt_buildings_summary <- summary(apt_buildings)
+
+# Print the results
+apt_buildings_dimensions
+apt_buildings_summary
+```
+
+```{r}
+# 3. Exploring the building_permits dataset
+
+# Display the first few rows of the dataset
+head(building_permits)
+
+# Check the class type
+class(building_permits)
+
+# Find the number of rows and columns
+building_permits_dimensions <- dim(building_permits)
+
+# Get a summary of the dataset
+building_permits_summary <- summary(building_permits)
+
+# Print the results
+building_permits_dimensions
+building_permits_summary
+```
+
+```{r}
+# 4. Exploring the vancouver_trees dataset
+
+# Display the first few rows of the dataset
+head(vancouver_trees)
+
+# Check the class type
+class(vancouver_trees)
+
+# Find the number of rows and columns
+vancouver_trees_dimensions <- dim(vancouver_trees)
+
+# Get a summary of the dataset
+vancouver_trees_summary <- summary(vancouver_trees)
+
+# Print the results
+vancouver_trees_dimensions
+vancouver_trees_summary
 ```
 
 <!----------------------------------------------------------------------------->
@@ -110,11 +188,17 @@ steam_games
 
 <!-------------------------- Start your work below ---------------------------->
 
+I chose the **steam_games** dataset because it offers diverse data on a large number of games, providing ample opportunity for analyzing trends in the gaming industry. It includes key attributes like game prices, ratings, and genres, which are ideal for data wrangling and visualization. The dataset's size and variety make it both interesting and challenging for analysis.
+
 <!----------------------------------------------------------------------------->
 
 1.4 **(2 points)** Time for a final decision! Going back to the beginning, it's important to have an *end goal* in mind. For example, if I had chosen the `titanic` dataset for my project, I might've wanted to explore the relationship between survival and other variables. Try to think of 1 research question that you would want to answer with your dataset. Note it down below.
 
 <!-------------------------- Start your work below ---------------------------->
+
+How do factors such as release date, developer, and recent reviews affect the popularity and sales price of games on Steam?
+
+This research question will allow us to explore relationships between various attributes of games and how they impact user ratings and proces, which can give valuable insights into trends and preferences in the gaming community.
 
 <!----------------------------------------------------------------------------->
 
@@ -144,6 +228,8 @@ Make sure that you're using dplyr and ggplot2 rather than base R for this task. 
 2.2 **(4 points)** For each of the 4 exercises that you complete, provide a *brief explanation* of why you chose that exercise in relation to your data (in other words, why does it make sense to do that?), and sufficient comments for a reader to understand your reasoning and code.
 
 <!-------------------------- Start your work below ---------------------------->
+
+
 
 <!----------------------------------------------------------------------------->
 
