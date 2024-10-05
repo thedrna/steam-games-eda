@@ -23,6 +23,7 @@ library(datateachr)
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
+library(stringr)
 ```
 
 3.  Make a repository in the <https://github.com/stat545ubc-2024> Organization. You can do this by following the steps found on canvas in the entry called [MDA: Create a repository](https://canvas.ubc.ca/courses/158528/pages/mda-create-a-repository). One completed, your repository should automatically be listed as part of the stat545ubc-2024 Organization.
@@ -229,8 +230,97 @@ Make sure that you're using dplyr and ggplot2 rather than base R for this task. 
 
 <!-------------------------- Start your work below ---------------------------->
 
+### 1. Plot the distribution of a numeric variable: I will plot the distribution of the original_price to understand how game prices are spread across different games.
 
+```{r}
+# Task 1: Plot the distribution of a numeric variable (Original Price)
 
+# Calculate the number of games with original_price = 0 as they'll be removed with log-transform
+zero_price_count <- steam_games %>%
+  filter(original_price == 0) %>%
+  count()
+
+# Filter out NA and 0-priced games
+steam_games_filtered <- steam_games %>%
+  filter(!is.na(original_price) & original_price > 0)
+
+# Create the plot with log-transformed prices
+price_distribution_plot <- ggplot(steam_games_filtered, aes(x = log(original_price))) + 
+  geom_histogram(binwidth = 0.5, fill = "blue", color = "black") +
+  theme_minimal() +
+  labs(title = "Distribution of Original Game Prices (Log-Transformed)", 
+       x = "Log of Original Price (USD)", 
+       y = "Count of Games") +
+  # Add annotation to the plot with the number of games with original_price = 0
+  annotate("text", x = 8, y = 2000, label = paste("Number of games with price 0:", zero_price_count$n), color = "red", size = 4)
+
+# Display the plot
+price_distribution_plot
+```
+
+I applied Log-transform on the price data to handle the large domain more effectively and compress the range of values, making the distribution easier to interpret. Understanding how game prices are distributed across the dataset gives insights into pricing strategies across developers.
+
+### 2. Create a new variable based on other variables: I’ll create a new variable called discount_percentage that calculates the percentage discount for each game based on its original_price and discount_price.
+
+```{r}
+# Task 2: # Create a new variable (discount_percentage)
+
+# Calculate the discount percentage where both original_price and discount_price are available
+steam_games <- steam_games %>%
+  mutate(discount_percentage = ifelse(!is.na(original_price) & original_price > 0 & !is.na(discount_price),
+  (original_price - discount_price) / original_price * 100, NA))  # Calculate percentage discount
+
+# Print the first few rows to check the new discount_percentage column
+head(steam_games)
+
+# Summary of discount_percentage to check its distribution
+summary(steam_games$discount_percentage)
+```
+
+The fact that there are large negative discount percentages (where the discount_price is greater than the original_price) is a major red flag. This could be due to data entry errors, where the prices have been recorded incorrectly, or it could indicate some unusual pricing strategies. In any case, such results are illogical, since a discount should reduce the price, not increase it.
+
+For the next steps, I could:
+
+1.  Investigate and possibly filter out these anomalies.
+2.  Focus on valid discount cases where discount_price is less than or equal to original_price.
+
+### 3. Investigate missing values per variable and plot them
+
+```{r}
+# Calculate the number of missing values for each variable
+missing_values <- steam_games %>%
+  summarise_all(~sum(is.na(.))) %>%
+  gather(key = "variable", value = "missing_count")
+
+# Print the missing values table
+print(missing_values)
+
+# Plot missing values
+ggplot(missing_values, aes(x = reorder(variable, -missing_count), y = missing_count)) +
+  geom_bar(stat = "identity", fill = "orange") +
+  theme_minimal() +
+  labs(title = "Missing Values per Variable", x = "Variables", y = "Number of Missing Values") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Critical variables with low missing values: Key identifiers such as id, url, name, and types have very few or no missing values, which is good as these are essential for basic analysis. Missing data is particularly problematic for variables related to reviews, system requirements, and discounts, which could heavily impact any conclusions drawn in these areas.
+
+### 4. Filter observations based on criteria: We will filter the data to look at games from a specific developer (e.g., Bethesda) and examine their review patterns and pricing strategies.
+
+```{r}
+# Task 4: Filter observations (Developer filtering for Bethesda games)
+# Filter the games where 'Bethesda' is found in the developer column
+bethesda_games <- steam_games %>%
+  filter(str_detect(developer, "Bethesda")) %>%
+  select(name, original_price, discount_price, discount_percentage)
+
+# Print the filtered tibble with selected columns
+head(bethesda_games)
+
+# Summary statistics to understand the pricing and discount patterns for Bethesda games
+summary(bethesda_games)
+```
+I'm looking at the string "Bethesda" appears anywhere in the developer column, allowing me to capture all entries related to Bethesda. I can now capture all games associated with Bethesda, even if they appear in joint development or publishing scenarios.
 <!----------------------------------------------------------------------------->
 
 # Task 3: Choose research questions
@@ -239,6 +329,17 @@ Make sure that you're using dplyr and ggplot2 rather than base R for this task. 
 
 <!--- *****START HERE***** --->
 
+1. How do discount percentages vary across different genres of games, and are certain genres more likely to have larger discounts?
+Understanding how discounts are applied across genres could provide insights into pricing strategies within the gaming industry. Some genres may be more prone to sales and discounts, which could indicate trends in user demand or marketing strategies.
+
+2. Is there a relationship between the original price of a game and the number of user reviews it receives?
+This question explores whether higher-priced games receive more attention and reviews from users or whether users are more engaged with lower-priced games.
+
+3. How does the release date of a game affect its discounting and user review patterns? Are older games more likely to have larger discounts or higher review counts?
+This question delves into the dynamics of game life cycles, looking at whether older games tend to have higher discounts and more reviews due to their established presence.
+
+4. What factors influence whether a game has missing data in key variables (e.g., recent reviews, system requirements, discount information)?
+Why it's interesting: Missing data can skew analysis, and understanding what causes certain variables to be missing can help assess data quality and reliability. This might reveal insights into which types of games are more likely to lack certain information.
 <!----------------------------->
 
 # Overall reproducibility/Cleanliness/Coherence Checklist
