@@ -1,4 +1,0 @@
-"0","# 1. Exploring the steam_games dataset"
-"0",""
-"0","# Display the first few rows of the dataset to get an idea of its structure"
-"0","head(steam_games)"

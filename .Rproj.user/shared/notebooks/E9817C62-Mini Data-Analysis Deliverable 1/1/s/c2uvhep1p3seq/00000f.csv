@@ -1,4 +1,0 @@
-"0","# 4. Exploring the vancouver_trees dataset"
-"0",""
-"0","# Display the first few rows of the dataset"
-"0","head(vancouver_trees)"

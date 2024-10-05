@@ -1,7 +1,0 @@
-"0",""
-"0","# Plot missing values"
-"0","ggplot(missing_values, aes(x = reorder(variable, -missing_count), y = missing_count)) +"
-"0","  geom_bar(stat = ""identity"", fill = ""orange"") +"
-"0","  theme_minimal() +"
-"0","  labs(title = ""Missing Values per Variable"", x = ""Variables"", y = ""Number of Missing Values"") +"
-"0","  theme(axis.text.x = element_text(angle = 45, hjust = 1))"
