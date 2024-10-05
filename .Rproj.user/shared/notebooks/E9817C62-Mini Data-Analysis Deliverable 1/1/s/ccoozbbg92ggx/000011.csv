@@ -1,0 +1,4 @@
+"0","# 2. Exploring the apt_buildings dataset"
+"0",""
+"0","# Display the first few rows of the dataset"
+"0","head(apt_buildings)"

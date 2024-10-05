@@ -1,0 +1,4 @@
+"0","# 3. Exploring the building_permits dataset"
+"0",""
+"0","# Display the first few rows of the dataset"
+"0","head(building_permits)"

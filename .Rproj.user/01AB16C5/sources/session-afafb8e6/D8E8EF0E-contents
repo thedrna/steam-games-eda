@@ -1,0 +1,386 @@
+---
+title: "Mini Data-Analysis Deliverable 1"
+output: github_document
+---
+
+# Welcome to your (maybe) first-ever data analysis project!
+
+And hopefully the first of many. Let's get started:
+
+1.  Install the [`datateachr`](https://github.com/UBC-MDS/datateachr) package by typing the following into your **R terminal**:
+
+<!-- -->
+
+```         
+install.packages("devtools")
+devtools::install_github("UBC-MDS/datateachr")
+```
+
+2.  Load the packages below.
+
+```{r}
+library(datateachr)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+```
+
+3.  Make a repository in the <https://github.com/stat545ubc-2024> Organization. You can do this by following the steps found on canvas in the entry called [MDA: Create a repository](https://canvas.ubc.ca/courses/158528/pages/mda-create-a-repository). One completed, your repository should automatically be listed as part of the stat545ubc-2024 Organization.
+
+# Instructions
+
+## For Both Milestones
+
+-   Each milestone has explicit tasks. Tasks that are more challenging will often be allocated more points.
+
+-   Each milestone will be also graded for reproducibility, cleanliness, and coherence of the overall Github submission.
+
+-   While the two milestones will be submitted as independent deliverables, the analysis itself is a continuum - think of it as two chapters to a story. Each chapter, or in this case, portion of your analysis, should be easily followed through by someone unfamiliar with the content. [Here](https://swcarpentry.github.io/r-novice-inflammation/06-best-practices-R.html) is a good resource for what constitutes "good code". Learning good coding practices early in your career will save you hassle later on!
+
+-   The milestones will be equally weighted.
+
+## For Milestone 1
+
+**To complete this milestone**, edit [this very `.Rmd` file](https://raw.githubusercontent.com/UBC-STAT/stat545.stat.ubc.ca/master/content/mini-project/mini-project-1.Rmd) directly. Fill in the sections that are tagged with `<!--- start your work below --->`.
+
+**To submit this milestone**, make sure to knit this `.Rmd` file to an `.md` file by changing the YAML output settings from `output: html_document` to `output: github_document`. Commit and push all of your work to the mini-analysis GitHub repository you made earlier, and tag a release on GitHub. Then, submit a link to your tagged release on canvas.
+
+**Points**: This milestone is worth 36 points: 30 for your analysis, and 6 for overall reproducibility, cleanliness, and coherence of the Github submission.
+
+# Learning Objectives
+
+By the end of this milestone, you should:
+
+-   Become familiar with your dataset of choosing
+-   Select 4 questions that you would like to answer with your data
+-   Generate a reproducible and clear report using R Markdown
+-   Become familiar with manipulating and summarizing your data in tibbles using `dplyr`, with a research question in mind.
+
+# Task 1: Choose your favorite dataset
+
+The `datateachr` package by Hayley Boyce and Jordan Bourak currently composed of 7 semi-tidy datasets for educational purposes. Here is a brief description of each dataset:
+
+-   *apt_buildings*: Acquired courtesy of The City of Toronto's Open Data Portal. It currently has 3455 rows and 37 columns.
+
+-   *building_permits*: Acquired courtesy of The City of Vancouver's Open Data Portal. It currently has 20680 rows and 14 columns.
+
+-   *cancer_sample*: Acquired courtesy of UCI Machine Learning Repository. It currently has 569 rows and 32 columns.
+
+-   *flow_sample*: Acquired courtesy of The Government of Canada's Historical Hydrometric Database. It currently has 218 rows and 7 columns.
+
+-   *parking_meters*: Acquired courtesy of The City of Vancouver's Open Data Portal. It currently has 10032 rows and 22 columns.
+
+-   *steam_games*: Acquired courtesy of Kaggle. It currently has 40833 rows and 21 columns.
+
+-   *vancouver_trees*: Acquired courtesy of The City of Vancouver's Open Data Portal. It currently has 146611 rows and 20 columns.
+
+**Things to keep in mind**
+
+-   We hope that this project will serve as practice for carrying our your own *independent* data analysis. Remember to comment your code, be explicit about what you are doing, and write notes in this markdown document when you feel that context is required. As you advance in the project, prompts and hints to do this will be diminished - it'll be up to you!
+
+-   Before choosing a dataset, you should always keep in mind **your goal**, or in other ways, *what you wish to achieve with this data*. This mini data-analysis project focuses on *data wrangling*, *tidying*, and *visualization*. In short, it's a way for you to get your feet wet with exploring data on your own.
+
+And that is exactly the first thing that you will do!
+
+1.1 **(1 point)** Out of the 7 datasets available in the `datateachr` package, choose **4** that appeal to you based on their description. Write your choices below:
+
+**Note**: We encourage you to use the ones in the `datateachr` package, but if you have a dataset that you'd really like to use, you can include it here. But, please check with a member of the teaching team to see whether the dataset is of appropriate complexity. Also, include a **brief** description of the dataset here to help the teaching team understand your data.
+
+<!-------------------------- Start your work below ---------------------------->
+
+1: apt_buildings\
+2: building_permits\
+3: steam_games\
+4: vancouver_trees
+
+<!----------------------------------------------------------------------------->
+
+1.2 **(6 points)** One way to narrowing down your selection is to *explore* the datasets. Use your knowledge of dplyr to find out at least *3* attributes about each of these datasets (an attribute is something such as number of rows, variables, class type...). The goal here is to have an idea of *what the data looks like*.
+
+*Hint:* This is one of those times when you should think about the cleanliness of your analysis. I added a single code chunk for you below, but do you want to use more than one? Would you like to write more comments outside of the code chunk?
+
+<!-------------------------- Start your work below ---------------------------->
+
+```{r}
+# 1. Exploring the steam_games dataset
+
+# Display the first few rows of the dataset to get an idea of its structure
+head(steam_games)
+
+# Check the class type
+class(steam_games)
+
+# Find the number of rows and columns
+steam_games_dimensions <- dim(steam_games) # dim() returns rows and columns
+
+# Get a summary of the dataset to understand the type of variables
+steam_games_summary <- summary(steam_games)
+
+# Print the results
+steam_games_dimensions
+steam_games_summary
+
+```
+
+```{r}
+# 2. Exploring the apt_buildings dataset
+
+# Display the first few rows of the dataset
+head(apt_buildings)
+
+# Check the class type
+class(apt_buildings)
+
+# Find the number of rows and columns
+apt_buildings_dimensions <- dim(apt_buildings)
+
+# Get a summary of the dataset
+apt_buildings_summary <- summary(apt_buildings)
+
+# Print the results
+apt_buildings_dimensions
+apt_buildings_summary
+```
+
+```{r}
+# 3. Exploring the building_permits dataset
+
+# Display the first few rows of the dataset
+head(building_permits)
+
+# Check the class type
+class(building_permits)
+
+# Find the number of rows and columns
+building_permits_dimensions <- dim(building_permits)
+
+# Get a summary of the dataset
+building_permits_summary <- summary(building_permits)
+
+# Print the results
+building_permits_dimensions
+building_permits_summary
+```
+
+```{r}
+# 4. Exploring the vancouver_trees dataset
+
+# Display the first few rows of the dataset
+head(vancouver_trees)
+
+# Check the class type
+class(vancouver_trees)
+
+# Find the number of rows and columns
+vancouver_trees_dimensions <- dim(vancouver_trees)
+
+# Get a summary of the dataset
+vancouver_trees_summary <- summary(vancouver_trees)
+
+# Print the results
+vancouver_trees_dimensions
+vancouver_trees_summary
+```
+
+<!----------------------------------------------------------------------------->
+
+1.3 **(1 point)** Now that you've explored the 4 datasets that you were initially most interested in, let's narrow it down to 1. What lead you to choose this one? Briefly explain your choice below.
+
+<!-------------------------- Start your work below ---------------------------->
+
+I chose the **steam_games** dataset because it offers diverse data on a large number of games, providing ample opportunity for analyzing trends in the gaming industry. It includes key attributes like game prices, ratings, and genres, which are ideal for data wrangling and visualization. The dataset's size and variety make it both interesting and challenging for analysis.
+
+<!----------------------------------------------------------------------------->
+
+1.4 **(2 points)** Time for a final decision! Going back to the beginning, it's important to have an *end goal* in mind. For example, if I had chosen the `titanic` dataset for my project, I might've wanted to explore the relationship between survival and other variables. Try to think of 1 research question that you would want to answer with your dataset. Note it down below.
+
+<!-------------------------- Start your work below ---------------------------->
+
+How do factors such as release date, developer, and recent reviews affect the popularity and sales price of games on Steam?
+
+This research question will allow us to explore relationships between various attributes of games and how they impact user ratings and proces, which can give valuable insights into trends and preferences in the gaming community.
+
+<!----------------------------------------------------------------------------->
+
+# Important note
+
+Read Tasks 2 and 3 *fully* before starting to complete either of them. Probably also a good point to grab a coffee to get ready for the fun part!
+
+This project is semi-guided, but meant to be *independent*. For this reason, you will complete tasks 2 and 3 below (under the **START HERE** mark) as if you were writing your own exploratory data analysis report, and this guidance never existed! Feel free to add a brief introduction section to your project, format the document with markdown syntax as you deem appropriate, and structure the analysis as you deem appropriate. If you feel lost, you can find a sample data analysis [here](https://www.kaggle.com/headsortails/tidy-titarnic) to have a better idea. However, bear in mind that it is **just an example** and you will not be required to have that level of complexity in your project.
+
+# Task 2: Exploring your dataset
+
+If we rewind and go back to the learning objectives, you'll see that by the end of this deliverable, you should have formulated *4* research questions about your data that you may want to answer during your project. However, it may be handy to do some more exploration on your dataset of choice before creating these questions - by looking at the data, you may get more ideas. **Before you start this task, read all instructions carefully until you reach START HERE under Task 3**.
+
+2.1 **(12 points)** Complete *4 out of the following 8 exercises* to dive deeper into your data. All datasets are different and therefore, not all of these tasks may make sense for your data - which is why you should only answer *4*.
+
+Make sure that you're using dplyr and ggplot2 rather than base R for this task. Outside of this project, you may find that you prefer using base R functions for certain tasks, and that's just fine! But part of this project is for you to practice the tools we learned in class, which is dplyr and ggplot2.
+
+1.  Plot the distribution of a numeric variable.
+2.  Create a new variable based on other variables in your data (only if it makes sense)
+3.  Investigate how many missing values there are per variable. Can you find a way to plot this?
+4.  Explore the relationship between 2 variables in a plot.
+5.  Filter observations in your data according to your own criteria. Think of what you'd like to explore - again, if this was the `titanic` dataset, I may want to narrow my search down to passengers born in a particular year...
+6.  Use a boxplot to look at the frequency of different observations within a single variable. You can do this for more than one variable if you wish!
+7.  Make a new tibble with a subset of your data, with variables and observations that you are interested in exploring.
+8.  Use a density plot to explore any of your variables (that are suitable for this type of plot).
+
+2.2 **(4 points)** For each of the 4 exercises that you complete, provide a *brief explanation* of why you chose that exercise in relation to your data (in other words, why does it make sense to do that?), and sufficient comments for a reader to understand your reasoning and code.
+
+<!-------------------------- Start your work below ---------------------------->
+
+### 1. Plot the distribution of a numeric variable: I will plot the distribution of the original_price to understand how game prices are spread across different games.
+
+```{r}
+# Task 1: Plot the distribution of a numeric variable (Original Price)
+
+# Calculate the number of games with original_price = 0 as they'll be removed with log-transform
+zero_price_count <- steam_games %>%
+  filter(original_price == 0) %>%
+  count()
+
+# Filter out NA and 0-priced games
+steam_games_filtered <- steam_games %>%
+  filter(!is.na(original_price) & original_price > 0)
+
+# Create the plot with log-transformed prices
+price_distribution_plot <- ggplot(steam_games_filtered, aes(x = log(original_price))) + 
+  geom_histogram(binwidth = 0.5, fill = "blue", color = "black") +
+  theme_minimal() +
+  labs(title = "Distribution of Original Game Prices (Log-Transformed)", 
+       x = "Log of Original Price (USD)", 
+       y = "Count of Games") +
+  # Add annotation to the plot with the number of games with original_price = 0
+  annotate("text", x = 8, y = 2000, label = paste("Number of games with price 0:", zero_price_count$n), color = "red", size = 4)
+
+# Display the plot
+price_distribution_plot
+```
+
+I applied Log-transform on the price data to handle the large domain more effectively and compress the range of values, making the distribution easier to interpret. Understanding how game prices are distributed across the dataset gives insights into pricing strategies across developers.
+
+### 2. Create a new variable based on other variables: I’ll create a new variable called discount_percentage that calculates the percentage discount for each game based on its original_price and discount_price.
+
+```{r}
+# Task 2: # Create a new variable (discount_percentage)
+
+# Calculate the discount percentage where both original_price and discount_price are available
+steam_games <- steam_games %>%
+  mutate(discount_percentage = ifelse(!is.na(original_price) & original_price > 0 & !is.na(discount_price),
+  (original_price - discount_price) / original_price * 100, NA))  # Calculate percentage discount
+
+# Print the first few rows to check the new discount_percentage column
+head(steam_games)
+
+# Summary of discount_percentage to check its distribution
+summary(steam_games$discount_percentage)
+```
+
+The fact that there are large negative discount percentages (where the discount_price is greater than the original_price) is a major red flag. This could be due to data entry errors, where the prices have been recorded incorrectly, or it could indicate some unusual pricing strategies. In any case, such results are illogical, since a discount should reduce the price, not increase it.
+
+For the next steps, I could:
+
+1.  Investigate and possibly filter out these anomalies.
+2.  Focus on valid discount cases where discount_price is less than or equal to original_price.
+
+### 3. Investigate missing values per variable and plot them
+
+```{r}
+# Calculate the number of missing values for each variable
+missing_values <- steam_games %>%
+  summarise_all(~sum(is.na(.))) %>%
+  gather(key = "variable", value = "missing_count")
+
+# Print the missing values table
+print(missing_values)
+
+# Plot missing values
+ggplot(missing_values, aes(x = reorder(variable, -missing_count), y = missing_count)) +
+  geom_bar(stat = "identity", fill = "orange") +
+  theme_minimal() +
+  labs(title = "Missing Values per Variable", x = "Variables", y = "Number of Missing Values") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Critical variables with low missing values: Key identifiers such as id, url, name, and types have very few or no missing values, which is good as these are essential for basic analysis. Missing data is particularly problematic for variables related to reviews, system requirements, and discounts, which could heavily impact any conclusions drawn in these areas.
+
+### 4. Filter observations based on criteria: We will filter the data to look at games from a specific developer (e.g., Bethesda) and examine their review patterns and pricing strategies.
+
+```{r}
+# Task 4: Filter observations (Developer filtering for Bethesda games)
+# Filter the games where 'Bethesda' is found in the developer column
+bethesda_games <- steam_games %>%
+  filter(str_detect(developer, "Bethesda")) %>%
+  select(name, original_price, discount_price, discount_percentage)
+
+# Print the filtered tibble with selected columns
+head(bethesda_games)
+
+# Summary statistics to understand the pricing and discount patterns for Bethesda games
+summary(bethesda_games)
+```
+I'm looking at the string "Bethesda" appears anywhere in the developer column, allowing me to capture all entries related to Bethesda. I can now capture all games associated with Bethesda, even if they appear in joint development or publishing scenarios.
+<!----------------------------------------------------------------------------->
+
+# Task 3: Choose research questions
+
+**(4 points)** So far, you have chosen a dataset and gotten familiar with it through exploring the data. You have also brainstormed one research question that interested you (Task 1.4). Now it's time to pick 4 research questions that you would like to explore in Milestone 2! Write the 4 questions and any additional comments below.
+
+<!--- *****START HERE***** --->
+
+1. How do discount percentages vary across different genres of games, and are certain genres more likely to have larger discounts?
+Understanding how discounts are applied across genres could provide insights into pricing strategies within the gaming industry. Some genres may be more prone to sales and discounts, which could indicate trends in user demand or marketing strategies.
+
+2. Is there a relationship between the original price of a game and the number of user reviews it receives?
+This question explores whether higher-priced games receive more attention and reviews from users or whether users are more engaged with lower-priced games.
+
+3. How does the release date of a game affect its discounting and user review patterns? Are older games more likely to have larger discounts or higher review counts?
+This question delves into the dynamics of game life cycles, looking at whether older games tend to have higher discounts and more reviews due to their established presence.
+
+4. What factors influence whether a game has missing data in key variables (e.g., recent reviews, system requirements, discount information)?
+Why it's interesting: Missing data can skew analysis, and understanding what causes certain variables to be missing can help assess data quality and reliability. This might reveal insights into which types of games are more likely to lack certain information.
+
+<!----------------------------->
+
+# Overall reproducibility/Cleanliness/Coherence Checklist
+
+## Coherence (0.5 points)
+
+The document should read sensibly from top to bottom, with no major continuity errors. An example of a major continuity error is having a data set listed for Task 3 that is not part of one of the data sets listed in Task 1.
+
+## Error-free code (3 points)
+
+For full marks, all code in the document should run without error. 1 point deduction if most code runs without error, and 2 points deduction if more than 50% of the code throws an error.
+
+## Main README (1 point)
+
+There should be a file named `README.md` at the top level of your repository. Its contents should automatically appear when you visit the repository on GitHub.
+
+Minimum contents of the README file:
+
+-   In a sentence or two, explains what this repository is, so that future-you or someone else stumbling on your repository can be oriented to the repository.
+-   In a sentence or two (or more??), briefly explains how to engage with the repository. You can assume the person reading knows the material from STAT 545A. Basically, if a visitor to your repository wants to explore your project, what should they know?
+
+Once you get in the habit of making README files, and seeing more README files in other projects, you'll wonder how you ever got by without them! They are tremendously helpful.
+
+## Output (1 point)
+
+All output is readable, recent and relevant:
+
+-   All Rmd files have been `knit`ted to their output md files.
+-   All knitted md files are viewable without errors on Github. Examples of errors: Missing plots, "Sorry about that, but we can't show files that are this big right now" messages, error messages from broken R code
+-   All of these output files are up-to-date -- that is, they haven't fallen behind after the source (Rmd) files have been updated.
+-   There should be no relic output files. For example, if you were knitting an Rmd to html, but then changed the output to be only a markdown file, then the html file is a relic and should be deleted.
+
+(0.5 point deduction if any of the above criteria are not met. 1 point deduction if most or all of the above criteria are not met.)
+
+Our recommendation: right before submission, delete all output files, and re-knit each milestone's Rmd file, so that everything is up to date and relevant. Then, after your final commit and push to Github, CHECK on Github to make sure that everything looks the way you intended!
+
+## Tagged release (0.5 points)
+
+You've tagged a release for Milestone 1.
+
+### Attribution
+
+Thanks to Icíar Fernández Boyano for mostly putting this together, and Vincenzo Coia for launching.

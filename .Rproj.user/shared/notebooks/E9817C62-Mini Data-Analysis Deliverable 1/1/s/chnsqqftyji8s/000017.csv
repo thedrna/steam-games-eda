@@ -1,0 +1,7 @@
+"0","# Calculate the number of missing values for each variable"
+"0","missing_values <- steam_games %>%"
+"0","  summarise_all(~sum(is.na(.))) %>%"
+"0","  gather(key = ""variable"", value = ""missing_count"")"
+"0",""
+"0","# Print the missing values table"
+"0","print(missing_values)"
