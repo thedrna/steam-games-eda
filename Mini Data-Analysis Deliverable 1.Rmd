@@ -1,6 +1,6 @@
 ---
 title: "Mini Data-Analysis Deliverable 1"
-output: html_document
+output: github_document
 ---
 
 # Welcome to your (maybe) first-ever data analysis project!
@@ -340,6 +340,7 @@ This question delves into the dynamics of game life cycles, looking at whether o
 
 4. What factors influence whether a game has missing data in key variables (e.g., recent reviews, system requirements, discount information)?
 Why it's interesting: Missing data can skew analysis, and understanding what causes certain variables to be missing can help assess data quality and reliability. This might reveal insights into which types of games are more likely to lack certain information.
+
 <!----------------------------->
 
 # Overall reproducibility/Cleanliness/Coherence Checklist
